@@ -1,0 +1,7 @@
+,Age,Salary,Exp,Name_Jane,Name_Kim,Name_Mike,Name_Teddy,Name_Umar,Name_Uttam,Domain_Analytics,Domain_Dataanalyst,Domain_Datascience,Domain_NLP,Domain_Statistics,Domain_Testing,Location_Bangalore,Location_Delhi,Location_Hyderbad,Location_Mumbai
+0,34,5000,2,False,False,True,False,False,False,False,False,True,False,False,False,False,False,False,True
+1,45,10000,3,False,False,False,True,False,False,False,False,False,False,False,True,True,False,False,False
+2,50,15000,4,False,False,False,False,True,False,False,True,False,False,False,False,True,False,False,False
+3,50,20000,4,True,False,False,False,False,False,True,False,False,False,False,False,False,False,True,False
+4,67,30000,5,False,False,False,False,False,True,False,False,False,False,True,False,True,False,False,False
+5,55,60000,10,False,True,False,False,False,False,False,False,False,True,False,False,False,True,False,False
