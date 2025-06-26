@@ -1,0 +1,511 @@
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sqlprac            |
+| sys                |
++--------------------+
+5 rows in set (0.02 sec)
+
+mysql> use sqlprac;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_sqlprac |
++-------------------+
+| customers         |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> select * from customers;
++------+--------+------+---------+----------+
+| Id   | Name   | Age  | Address | Salary   |
++------+--------+------+---------+----------+
+|   45 | Rohit  |   37 | India   | 50000.00 |
+|   18 | Virat  |   36 | India   | 59000.00 |
+|    7 | Dhoni  |   43 | India   | 35500.00 |
+|   10 | Sachin |   52 | India   | 25000.00 |
+|   33 | Hardik |   31 | India   | 45000.50 |
++------+--------+------+---------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select Id,Name from customers;
++------+--------+
+| Id   | Name   |
++------+--------+
+|   45 | Rohit  |
+|   18 | Virat  |
+|    7 | Dhoni  |
+|   10 | Sachin |
+|   33 | Hardik |
++------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select Name from customers where id=45;
++-------+
+| Name  |
++-------+
+| Rohit |
++-------+
+1 row in set (0.01 sec)
+
+mysql> -- like Statement 
+mysql> -- % and _
+mysql> select Name from customers where name LIKE "%t";
++-------+
+| Name  |
++-------+
+| Rohit |
+| Virat |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers where name LIKE "%i_";
++------+--------+------+---------+----------+
+| Id   | Name   | Age  | Address | Salary   |
++------+--------+------+---------+----------+
+|   45 | Rohit  |   37 | India   | 50000.00 |
+|   10 | Sachin |   52 | India   | 25000.00 |
+|   33 | Hardik |   31 | India   | 45000.50 |
++------+--------+------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customers where name LIKE "__r%";
++------+--------+------+---------+----------+
+| Id   | Name   | Age  | Address | Salary   |
++------+--------+------+---------+----------+
+|   18 | Virat  |   36 | India   | 59000.00 |
+|   33 | Hardik |   31 | India   | 45000.50 |
++------+--------+------+---------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers where name LIKE "__r__";
++------+-------+------+---------+----------+
+| Id   | Name  | Age  | Address | Salary   |
++------+-------+------+---------+----------+
+|   18 | Virat |   36 | India   | 59000.00 |
++------+-------+------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> /*
+   /*>   This is a multi-line comment.
+   /*>   It can span several lines.
+   /*>   This is way to write multi line comments
+   /*> */
+mysql> insert into customers values(14,"ponting",50,"Aus",30000.8),(49,"Smith",36,"Aus",47505.5);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from customers;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> --Groub by
+    -> -- group by Statement
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Groub by' at line 1
+mysql> select Address from customers group by Address;
++---------+
+| Address |
++---------+
+| India   |
+| Aus     |
++---------+
+2 rows in set (0.02 sec)
+
+mysql> select Address,AVG(Age) from customers group by Address;
++---------+----------+
+| Address | AVG(Age) |
++---------+----------+
+| India   |  39.8000 |
+| Aus     |  43.0000 |
++---------+----------+
+2 rows in set (0.02 sec)
+
+mysql> select Address,AVG(Age) ,MAX(Age) from customers group by Address;
++---------+----------+----------+
+| Address | AVG(Age) | MAX(Age) |
++---------+----------+----------+
+| India   |  39.8000 |       52 |
+| Aus     |  43.0000 |       50 |
++---------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select Address,AVG(Age),MAX(Age),MIN(Age) from customers group by Address;
++---------+----------+----------+----------+
+| Address | AVG(Age) | MAX(Age) | MIN(Age) |
++---------+----------+----------+----------+
+| India   |  39.8000 |       52 |       31 |
+| Aus     |  43.0000 |       50 |       36 |
++---------+----------+----------+----------+
+2 rows in set (0.02 sec)
+
+mysql> select Address,AVG(Age),MAX(Age),MIN(Age),COUNT(Age) from customers group by Address;
++---------+----------+----------+----------+------------+
+| Address | AVG(Age) | MAX(Age) | MIN(Age) | COUNT(Age) |
++---------+----------+----------+----------+------------+
+| India   |  39.8000 |       52 |       31 |          5 |
+| Aus     |  43.0000 |       50 |       36 |          2 |
++---------+----------+----------+----------+------------+
+2 rows in set (0.02 sec)
+
+mysql> select Name from customers group by Name;
++---------+
+| Name    |
++---------+
+| Rohit   |
+| Virat   |
+| Dhoni   |
+| Sachin  |
+| Hardik  |
+| ponting |
+| Smith   |
++---------+
+7 rows in set (0.00 sec)
+
+mysql> select Name,SUM(Salary) from customers group by Name;
++---------+-------------+
+| Name    | SUM(Salary) |
++---------+-------------+
+| Rohit   |    50000.00 |
+| Virat   |    59000.00 |
+| Dhoni   |    35500.00 |
+| Sachin  |    25000.00 |
+| Hardik  |    45000.50 |
+| ponting |    30000.80 |
+| Smith   |    47505.50 |
++---------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> -- Order By
+mysql> select * from customers;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Name;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   18 | Virat   |   36 | India   | 59000.00 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Name desc;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   18 | Virat   |   36 | India   | 59000.00 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Age ASC;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Address;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Age,Address;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Address,Age;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers order by Address,Age DESC;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
++------+---------+------+---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> rename table customers to cricketers;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_sqlprac |
++-------------------+
+| cricketers        |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from cricketers order by 4;
++------+---------+------+---------+----------+
+| Id   | Name    | Age  | Address | Salary   |
++------+---------+------+---------+----------+
+|   14 | ponting |   50 | Aus     | 30000.80 |
+|   49 | Smith   |   36 | Aus     | 47505.50 |
+|   45 | Rohit   |   37 | India   | 50000.00 |
+|   18 | Virat   |   36 | India   | 59000.00 |
+|    7 | Dhoni   |   43 | India   | 35500.00 |
+|   10 | Sachin  |   52 | India   | 25000.00 |
+|   33 | Hardik  |   31 | India   | 45000.50 |
++------+---------+------+---------+----------+
+7 rows in set (0.02 sec)
+
+mysql> select Address from cricketers group by Address;
++---------+
+| Address |
++---------+
+| India   |
+| Aus     |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select Address,AVG(Age) from cricketers group by Address;
++---------+----------+
+| Address | AVG(Age) |
++---------+----------+
+| India   |  39.8000 |
+| Aus     |  43.0000 |
++---------+----------+
+2 rows in set (0.00 sec)
+
+mysql> -- HAVING VS WHERE
+mysql> select Address,AVG(Age) from cricketers group by Address Having avg(Age)<40;
++---------+----------+
+| Address | AVG(Age) |
++---------+----------+
+| India   |  39.8000 |
++---------+----------+
+1 row in set (0.01 sec)
+
+mysql> select Address ,AVG(Salary) from cricketers group by Address;
++---------+--------------+
+| Address | AVG(Salary)  |
++---------+--------------+
+| India   | 42900.100000 |
+| Aus     | 38753.150000 |
++---------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select Address ,AVG(Salary) from cricketers where Name like "R%" group by Address;
++---------+--------------+
+| Address | AVG(Salary)  |
++---------+--------------+
+| India   | 50000.000000 |
++---------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select Address ,AVG(Salary) from cricketers where Name like "%i-" group by Address;
+Empty set (0.00 sec)
+
+mysql> select Address ,AVG(Salary) from cricketers where Name like "%i_" group by Address;
++---------+--------------+
+| Address | AVG(Salary)  |
++---------+--------------+
+| India   | 40000.166667 |
++---------+--------------+
+1 row in set (0.00 sec)
+
+mysql> /*
+   /*> Where - Before grouping to filter rows
+   /*> Having - After grouping to filter groups after aggregation
+   /*> */
+mysql> select Address,count(Age) from cricketers where Salary>30000 group by Address Having count(Age)<=2;
++---------+------------+
+| Address | count(Age) |
++---------+------------+
+| Aus     |          2 |
++---------+------------+
+1 row in set (0.00 sec)
+
+mysql> -- Limit and Aliasing
+mysql> select * from cricketers LIMIT 3;
++------+-------+------+---------+----------+
+| Id   | Name  | Age  | Address | Salary   |
++------+-------+------+---------+----------+
+|   45 | Rohit |   37 | India   | 50000.00 |
+|   18 | Virat |   36 | India   | 59000.00 |
+|    7 | Dhoni |   43 | India   | 35500.00 |
++------+-------+------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from cricketers LIMIT 5;
++------+--------+------+---------+----------+
+| Id   | Name   | Age  | Address | Salary   |
++------+--------+------+---------+----------+
+|   45 | Rohit  |   37 | India   | 50000.00 |
+|   18 | Virat  |   36 | India   | 59000.00 |
+|    7 | Dhoni  |   43 | India   | 35500.00 |
+|   10 | Sachin |   52 | India   | 25000.00 |
+|   33 | Hardik |   31 | India   | 45000.50 |
++------+--------+------+---------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from cricketers LIMIT 4;
++------+--------+------+---------+----------+
+| Id   | Name   | Age  | Address | Salary   |
++------+--------+------+---------+----------+
+|   45 | Rohit  |   37 | India   | 50000.00 |
+|   18 | Virat  |   36 | India   | 59000.00 |
+|    7 | Dhoni  |   43 | India   | 35500.00 |
+|   10 | Sachin |   52 | India   | 25000.00 |
++------+--------+------+---------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select Name,Age from cricketers order by Age LIMIT 3;
++--------+------+
+| Name   | Age  |
++--------+------+
+| Hardik |   31 |
+| Virat  |   36 |
+| Smith  |   36 |
++--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select Name,Age from cricketers order by Age DESC LIMIT 3;
++---------+------+
+| Name    | Age  |
++---------+------+
+| Sachin  |   52 |
+| ponting |   50 |
+| Dhoni   |   43 |
++---------+------+
+3 rows in set (0.02 sec)
+
+mysql> select Name,Age from cricketers order by Age DESC LIMIT 2,2;
++-------+------+
+| Name  | Age  |
++-------+------+
+| Dhoni |   43 |
+| Rohit |   37 |
++-------+------+
+2 rows in set (0.00 sec)
+
+mysql> select Name,Age from cricketers order by Age DESC;
++---------+------+
+| Name    | Age  |
++---------+------+
+| Sachin  |   52 |
+| ponting |   50 |
+| Dhoni   |   43 |
+| Rohit   |   37 |
+| Virat   |   36 |
+| Smith   |   36 |
+| Hardik  |   31 |
++---------+------+
+7 rows in set (0.00 sec)
+
+mysql> -- Aliasing
+mysql> select Address,AVG(Salary) from cricketers group by Address;
++---------+--------------+
+| Address | AVG(Salary)  |
++---------+--------------+
+| India   | 42900.100000 |
+| Aus     | 38753.150000 |
++---------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select Address,AVG(Salary) as Average from cricketers group by Address;
++---------+--------------+
+| Address | Average      |
++---------+--------------+
+| India   | 42900.100000 |
+| Aus     | 38753.150000 |
++---------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select Address,count(Age) as Average from cricketers where Salary>30000 group by Address Having Average<=2;
++---------+---------+
+| Address | Average |
++---------+---------+
+| Aus     |       2 |
++---------+---------+
+1 row in set (0.02 sec)
+
+mysql> select Address,count(Age) Average from cricketers where Salary>30000 group by Address Having Average<=2;
++---------+---------+
+| Address | Average |
++---------+---------+
+| Aus     |       2 |
++---------+---------+
+1 row in set (0.00 sec)
+
+mysql> notee;
